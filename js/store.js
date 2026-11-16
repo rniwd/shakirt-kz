@@ -13,7 +13,9 @@ const Store = (() => {
     addQuestion(q) { const l = read(K.q); l.push({ ...q, id: uid() }); return write(K.q, l); },
     delQuestion(id) { write(K.q, read(K.q).filter(q => q.id !== id)); },
     // Жиынтықтар (конструктор): { id, title, subject, text } — text: әр жолда «сұрақ | жауап | қате1 | қате2»
-    sets: () => [...(window.PUBLISHED_SETS || []), ...read(K.s).map(x => ({ ...x, local: true }))],
+    _cloud: [],
+    setCloud(l) { this._cloud = l; },
+    sets() { return [...(window.PUBLISHED_SETS || []), ...read(K.s).map(x => ({ ...x, local: true })), ...this._cloud]; },
     localSets: () => read(K.s),
     saveSet(set) {
       const l = read(K.s), i = l.findIndex(x => x.id === set.id);

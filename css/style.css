@@ -31,7 +31,7 @@ code{background:#eef;padding:1px 6px;border-radius:6px}
 .tab:hover{background:rgba(255,255,255,.1)}
 .tab.active{background:#fff;color:var(--ink);box-shadow:var(--shadow);transform:translateX(6px)}
 .tab:active{transform:scale(.96)}
-.fs{margin-top:auto;background:rgba(255,255,255,.18);border:0;color:#fff;padding:12px;border-radius:14px;font-weight:800}
+.fs{margin-top:0;background:rgba(255,255,255,.18);border:0;color:#fff;padding:12px;border-radius:14px;font-weight:800}
 
 main{margin-left:270px;padding:24px;max-width:1300px}
 .panel{display:none}.panel.active{display:block;animation:fade .25s}
@@ -258,3 +258,11 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--sky)}
 .mini:active{transform:scale(.94)}
 .mini:disabled{opacity:.35;pointer-events:none}
 #setForm textarea{min-height:200px;font-weight:700;line-height:1.5}
+
+.side .acctbtn{margin-top:auto;background:var(--gold);color:#3a2b00;font-weight:900}
+.side .acctbtn+.fs{margin-top:0}
+.acct{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.badge{display:inline-block;font-size:.75rem;font-weight:800;padding:2px 9px;border-radius:99px;background:#e5f9ee;color:#177a4f}
+.badge.priv{background:#fff1d6;color:#8a5a00}
+.authbox label{margin:8px 0}
+.set-card.focus{outline:4px solid var(--gold)}

@@ -17,6 +17,7 @@ $("#fsBtn").onclick = () => document.fullscreenElement ? document.exitFullscreen
 Materials.init();
 Tests.init();
 Builder.init();
+Cloud.init();
 renderStats();
 $("#musicBtn").onclick = () => Music.toggle();
 Music.sync();

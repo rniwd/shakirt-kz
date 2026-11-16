@@ -20,6 +20,7 @@
       <button class="tab" data-tab="builder"><i>🛠</i> Конструктор <em>жаңа</em></button>
       <button class="tab" data-tab="videos"><i>🎬</i> Бейнесабақтар <em>жақында</em></button>
     </nav>
+    <button id="acctBtn" class="fs acctbtn">👤 Кіру</button>
     <button id="fsBtn" class="fs" title="Толық экран">⛶ Толық экран</button>
   </aside>
 
@@ -150,7 +151,11 @@
     <section id="tab-builder" class="panel">
       <h1>🛠 Конструктор</h1>
       <p class="lead">Бір рет жазыңыз — тест, Арқан тарту, Кезекпен, Барабан және Жұпты тап ойындары өзі жасалады.</p>
+      <div id="acct" class="box acct"></div>
+      <h2>📁 Менің жиынтықтарым</h2>
       <div id="setList" class="set-grid"></div>
+      <h2>🌐 Ашық жиынтықтар <small class="hint">— басқа мұғалімдер жариялаған, ойнауға болады</small></h2>
+      <div id="pubList" class="set-grid"></div>
 
       <form id="setForm" class="box">
         <h2 id="setFormTitle">➕ Жаңа жиынтық</h2>
@@ -194,6 +199,8 @@
   <script src="data/tests.js"></script>
   <script src="data/materials-kk.js"></script>
   <script src="data/tests-kk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/store.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/music.js"></script>
@@ -202,6 +209,7 @@
   <script src="js/games.js"></script>
   <script src="js/materials.js"></script>
   <script src="js/tests.js"></script>
+  <script src="js/cloud.js"></script>
   <script src="js/builder.js"></script>
   <script src="js/app.js"></script>
 </body>
