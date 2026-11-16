@@ -17,6 +17,7 @@
       <button class="tab" data-tab="materials"><i>📚</i> Материалдар</button>
       <button class="tab" data-tab="games"><i>🎮</i> Ойындар</button>
       <button class="tab" data-tab="tests"><i>📝</i> Тесттер</button>
+      <button class="tab" data-tab="builder"><i>🛠</i> Конструктор <em>жаңа</em></button>
       <button class="tab" data-tab="videos"><i>🎬</i> Бейнесабақтар <em>жақында</em></button>
     </nav>
     <button id="fsBtn" class="fs" title="Толық экран">⛶ Толық экран</button>
@@ -41,6 +42,7 @@
         <button class="game-card c-mat" data-go="materials"><span class="emoji">📚</span><b>Материалдар</b><small>Математика, ағылшын тілі, қазақ тілі мен әдебиеті: бөлшектен логарифмге, Абайдан грамматикаға дейін.</small></button>
         <button class="game-card c-game" data-go="games"><span class="emoji">🎮</span><b>Ойындар</b><small>Арқан тарту, Барабан, Кезекпен, Туды тап, Жұпты тап. Бір тақтада командамен ойнаймыз.</small></button>
         <button class="game-card c-test" data-go="tests"><span class="emoji">📝</span><b>Тесттер</b><small>Әр тақырыпқа тест және қатемен жұмыс: неге дұрыс екені түсіндіріледі.</small></button>
+        <button class="game-card c-build" data-go="builder"><span class="emoji">🛠</span><b>Конструктор</b><small>Өз тапсырмаңды жаз — платформа одан тест пен ойындарды өзі жасайды. Wordwall сияқты, бірақ қазақша және тегін.</small></button>
         <button class="game-card c-vid" data-go="videos"><span class="emoji">🎬</span><b>Бейнесабақтар</b><small>Әзірлену үстінде. Жақында қысқа бейнесабақтар қосылады.</small></button>
       </div>
     </section>
@@ -144,6 +146,33 @@
       <div id="testRun" hidden></div>
     </section>
 
+    <!-- КОНСТРУКТОР -->
+    <section id="tab-builder" class="panel">
+      <h1>🛠 Конструктор</h1>
+      <p class="lead">Бір рет жазыңыз — тест, Арқан тарту, Кезекпен, Барабан және Жұпты тап ойындары өзі жасалады.</p>
+      <div id="setList" class="set-grid"></div>
+
+      <form id="setForm" class="box">
+        <h2 id="setFormTitle">➕ Жаңа жиынтық</h2>
+        <div class="split">
+          <label>Атауы<input name="title" required maxlength="80" placeholder="Мысалы: 5-сынып, Септік жалғаулары"></label>
+          <label>Пән<select name="subject"><option value="english">Ағылшын тілі</option><option value="math">Математика</option><option value="kazakh">Қазақ тілі мен әдебиеті</option><option value="other">Басқа пән</option></select></label>
+        </div>
+        <label>Тапсырмалар — әр жолға бір сұрақ: <code>сұрақ | дұрыс жауап</code>
+          <textarea name="text" rows="9" required placeholder="apple | алма&#10;7 × 8 | 56&#10;Абай қай жылы туған? | 1845 | 1865 | 1904"></textarea>
+        </label>
+        <p class="hint">• Қате жауаптарды қоспасаңыз, платформа оларды басқа жолдардың жауаптарынан өзі алады.<br>
+          • Қате жауапты өзіңіз жазғыңыз келсе: <code>сұрақ | дұрыс | қате1 | қате2 | қате3</code>.<br>
+          • Excel немесе Google Кестесінен екі бағанды көшіріп қоюға болады.</p>
+        <div class="row">
+          <button class="primary">💾 Сақтау</button>
+          <button type="button" class="ghost-b" id="setExample">✨ Үлгі</button>
+          <b id="setCount" class="hint"></b>
+        </div>
+      </form>
+      <div class="box"><b>Басқа құрылғыда көру үшін:</b> жиынтықтағы «🔗 Бөлісу» сілтемесін жіберіңіз. Барлығына ортақ ету үшін: Материалдар → Мұғалім режимі → «Жүктеп алу».</div>
+    </section>
+
     <!-- БЕЙНЕСАБАҚТАР -->
     <section id="tab-videos" class="panel">
       <h1>🎬 Бейнесабақтар</h1>
@@ -173,6 +202,7 @@
   <script src="js/games.js"></script>
   <script src="js/materials.js"></script>
   <script src="js/tests.js"></script>
+  <script src="js/builder.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

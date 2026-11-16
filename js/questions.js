@@ -70,11 +70,27 @@ const Q = (() => {
   const kzBank = () => (window.PUBLISHED_TESTS || []).filter(t => t.subject === "kazakh").flatMap(t =>
     t.qs.map(([q, opts, ai]) => ({ q, a: opts[ai], w: opts.filter((_, i) => i !== ai) })));
 
+  // ---- Мұғалімнің жиынтығы (конструктор) ----
+  const getSet = (subject) => Store.sets().find(x => "set:" + x.id === subject);
+  const setGen = (subject) => {
+    const items = Store.parseItems((getSet(subject) || {}).text);
+    return () => {
+      const it = pick(items);
+      let w = it.w;
+      if (!w.length) w = shuffle([...new Set(items.map(x => x.a).filter(a => a !== it.a))]).slice(0, 3);
+      return { q: it.q, a: it.a, w };
+    };
+  };
+  const pairsFor = (subject) => {
+    const set = getSet(subject);
+    return set ? Store.parseItems(set.text).map(i => [i.q, i.a]) : WORDS.map(([em, kk, en]) => [en, `${em} ${kk}`]);
+  };
+
   // ---- Көз таңдау ----
   // source: "auto" | "custom" | "mix"; level 1–4 (математика)
   function source(subject, src, level) {
-    const auto = subject === "math" ? mathGen(level || 1) : subject === "flags" ? flagGen : subject === "kazakh" ? (() => pick(kzBank())) : wordGen;
-    const custom = subject === "flags" ? [] : Store.questions(subject);
+    const auto = subject.startsWith("set:") ? setGen(subject) : subject === "math" ? mathGen(level || 1) : subject === "flags" ? flagGen : subject === "kazakh" ? (() => pick(kzBank())) : wordGen;
+    const custom = subject === "flags" || subject.startsWith("set:") ? [] : Store.questions(subject);
     let last = null;
     return () => {
       let item;
@@ -88,5 +104,5 @@ const Q = (() => {
       return { q: item.q, small: item.small, img: item.img, optImg: item.optImg, a: item.a, opts: shuffle([item.a, ...wrong]) };
     };
   }
-  return { source, shuffle, rnd, pick, words: () => WORDS, hasCustom: (s) => Store.questions(s).length > 0 };
+  return { source, shuffle, rnd, pick, words: () => WORDS, pairs: pairsFor, setGen, hasCustom: (s) => Store.questions(s).length > 0 };
 })();

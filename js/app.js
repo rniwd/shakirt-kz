@@ -16,6 +16,7 @@ $$(".game-card[data-game]").forEach(c => c.onclick = () => { Sound.tap(); Games.
 $("#fsBtn").onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
 Materials.init();
 Tests.init();
+Builder.init();
 renderStats();
 $("#musicBtn").onclick = () => Music.toggle();
 Music.sync();

@@ -15,8 +15,19 @@ const Tests = (() => {
 
   function showRun(node) { $("#testsHome").hidden = !!node; $("#testRun").hidden = !node; if (node) $("#testRun").replaceChildren(node); else list(); }
 
-  function start(id) {
-    const t = all().find(x => x.id === id); if (!t) return;
+  function startSet(set) {
+    const items = Q.shuffle(Store.parseItems(set.text)).slice(0, 10);
+    const answers = [...new Set(Store.parseItems(set.text).map(i => i.a))];
+    const qs = items.map(it => {
+      const w = it.w.length ? it.w : Q.shuffle(answers.filter(a => a !== it.a)).slice(0, 3);
+      return [it.q, [it.a, ...w], 0, `Дұрыс жауап: ${it.a}`];
+    });
+    start("set-" + set.id, { id: "set-" + set.id, subject: set.subject, title: set.title, qs, custom: true });
+  }
+
+  function start(id, custom) {
+    const t = custom || all().find(x => x.id === id); if (!t) return;
+    const back = () => { showRun(null); if (custom) go("builder"); };
     let i = 0, score = 0; const wrong = [];
     const step = () => {
       const [q, opts, ai, why] = t.qs[i];
@@ -38,7 +49,7 @@ const Tests = (() => {
       });
       box.append(el("h2", {}, q), el("div", { class: "opts" }, buttons));
       showRun(el("div", {},
-        el("div", { class: "test-top" }, el("button", { class: "back", onclick: () => showRun(null) }, "← Тесттер"), el("b", {}, `${t.title} · ${i + 1}/${t.qs.length}`), el("span", {}, `⭐ ${score}`)),
+        el("div", { class: "test-top" }, el("button", { class: "back", onclick: back }, "← Артқа"), el("b", {}, `${t.title} · ${i + 1}/${t.qs.length}`), el("span", {}, `⭐ ${score}`)),
         bar, box));
     };
     function finish() {
@@ -51,9 +62,9 @@ const Tests = (() => {
         el("p", {}, pct === 1 ? "Керемет! Барлығы дұрыс!" : pct >= .6 ? "Жарайсың! Қателермен жұмыс істейік." : "Тақырыпты қайта оқып, тағы көр!"),
         wrong.length ? el("div", { class: "mist" }, el("b", {}, "Қателермен жұмыс:"), wrong.map(([q, a, why]) => el("div", {}, `${q} → `, el("b", {}, a), ` — ${why}`))) : "",
         el("div", { class: "row", style: "justify-content:center;margin-top:18px" },
-          el("button", { class: "primary", onclick: () => start(id) }, "🔁 Қайта"),
+          el("button", { class: "primary", onclick: () => custom ? startSet(JSON.parse(JSON.stringify(window.__lastSet))) : start(id) }, "🔁 Қайта"),
           mat ? el("button", { class: "ghost-b", onclick: () => { showRun(null); go("materials"); } }, "📚 Материалға") : "",
-          el("button", { class: "ghost-b", onclick: () => showRun(null) }, "Тесттер тізімі"))));
+          el("button", { class: "ghost-b", onclick: back }, custom ? "Конструкторға" : "Тесттер тізімі"))));
     }
     step();
   }
@@ -62,5 +73,5 @@ const Tests = (() => {
     $$("#tFilters .chip").forEach(c => c.onclick = () => { filter = c.dataset.f; $$("#tFilters .chip").forEach(x => x.classList.toggle("active", x === c)); list(); });
     list();
   }
-  return { init, start };
+  return { init, start, startSet: (set) => { window.__lastSet = set; startSet(set); } };
 })();

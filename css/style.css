@@ -247,3 +247,14 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--sky)}
 .group-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
 .grp{border-top:8px solid var(--c);background:#f6fafc;border-radius:16px;padding:12px;font-weight:700}
 .grp b{display:block;color:var(--c);margin-bottom:6px}
+
+/* Конструктор */
+.c-build{border-color:#8b5cf6}
+.set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:10px}
+.set-card{background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--shadow);border-top:8px solid #8b5cf6;display:flex;flex-direction:column;gap:8px}
+.set-card small{opacity:.7}
+.set-actions{display:flex;flex-wrap:wrap;gap:8px}
+.mini{border:2px solid #d9e4ea;background:#fff;border-radius:12px;padding:8px 12px;font-weight:800;font-size:.95rem;transition:.08s}
+.mini:active{transform:scale(.94)}
+.mini:disabled{opacity:.35;pointer-events:none}
+#setForm textarea{min-height:200px;font-weight:700;line-height:1.5}

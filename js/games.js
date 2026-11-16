@@ -39,15 +39,15 @@ const Games = (() => {
   function toMenu() { if (stopFn) stopFn(); stopFn = null; stage().replaceChildren(); show("menu"); }
 
   // ---------- Баптау экраны ----------
-  function openSetup(game) {
-    const cfg = { subject: game === "flag" ? "flags" : "math", level: 1, source: "auto", win: 5, teams: game === "tug" ? 2 : 3, rounds: 5, pairs: 6, names: [...DEFAULT_NAMES], remove: "yes", list: (() => { try { return localStorage.getItem("bo_class") || ""; } catch { return ""; } })() };
+  function openSetup(game, preset) {
+    const cfg = { subject: preset ? preset.subject : game === "flag" ? "flags" : "math", level: 1, source: "auto", win: 5, teams: game === "tug" ? 2 : 3, rounds: 5, pairs: 6, names: [...DEFAULT_NAMES], remove: "yes", list: (() => { try { return localStorage.getItem("bo_class") || ""; } catch { return ""; } })() };
     const box = el("div", { class: "setup-box" });
     const render = () => {
       const seg = (key, items) => el("div", { class: "seg" }, items.map(([v, label]) =>
         el("button", { class: cfg[key] === v ? "on" : "", onclick: () => { cfg[key] = v; Sound.tap(); render(); } }, label)));
       const g = (title, node) => el("div", { class: "opt-group" }, el("b", {}, title), node);
-      const groups = [el("button", { class: "back", onclick: toMenu }, "← Артқа"), el("h1", {}, TITLES[game])];
-      if (game === "tug" || game === "turn" || game === "drum") {
+      const groups = [el("button", { class: "back", onclick: toMenu }, "← Артқа"), el("h1", {}, TITLES[game]), ...(preset ? [el("p", { class: "lead" }, `🛠 ${preset.title}`)] : [])];
+      if (!preset && (game === "tug" || game === "turn" || game === "drum")) {
         groups.push(g("Пән", seg("subject", [["math", "➗ Математика"], ["english", "🔤 Ағылшын тілі"], ["kazakh", "📖 Қазақ тілі мен әдебиеті"], ...(game === "drum" ? [["mix", "🔀 Аралас"]] : [["flags", "🚩 Туларды"]])])));
         if (cfg.subject === "math") groups.push(g("Деңгей", seg("level", [[1, "1–20 дейін қосу/азайту"], [2, "100 дейін"], [3, "Көбейту кестесі"], [4, "Бөлу + аралас"]])));
         if (game !== "drum" && cfg.subject !== "flags" && cfg.subject !== "kazakh") {
@@ -201,8 +201,8 @@ const Games = (() => {
   // ---------- Жұпты тап (ағылшын ↔ қазақша) ----------
   function startPairs(cfg) {
     const n = cfg.teams, names = Array.from({ length: n }, (_, i) => cfg.names[i] || DEFAULT_NAMES[i]);
-    const chosen = Q.shuffle(Q.words()).slice(0, cfg.pairs);
-    const cards = Q.shuffle(chosen.flatMap(([em, kk, en], id) => [{ id, lang: "en", text: en }, { id, lang: "kk", text: `${em} ${kk}` }]));
+    const chosen = Q.shuffle(Q.pairs(cfg.subject)).slice(0, cfg.pairs);
+    const cards = Q.shuffle(chosen.flatMap(([l, r], id) => [{ id, lang: "en", text: l }, { id, lang: "kk", text: r }]));
     const scores = Array(n).fill(0);
     let turn = 0, open = [], busy = false, found = 0, dead = false;
     const scoreEls = names.map((nm, i) => el("div", { class: "score", style: `--c:${TEAM_COLORS[i]}` }, el("b", {}, `${TEAM_EMOJI[i]} ${nm}`), el("span", {}, "0")));
