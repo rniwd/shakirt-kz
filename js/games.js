@@ -95,12 +95,11 @@ const Games = (() => {
     let pos = 0, over = false; // pos<0 → A жеңуде, pos>0 → B
     const names = [cfg.names[0] || "A", cfg.names[1] || "B"];
 
-    const pullerL = el("div", { class: "puller l" }, TEAM_EMOJI[0]);
-    const pullerR = el("div", { class: "puller r" }, TEAM_EMOJI[1]);
-    const ropeWrap = el("div", { class: "rope-wrap" }, el("div", { class: "rope" }), el("div", { class: "knot" }, "🚩"), pullerL, pullerR);
-    const yurt = el("div", { class: "yurt" });
-    yurt.innerHTML = '<img src="assets/yurt.png" alt="">';
-    const scene = el("div", { class: "scene" }, el("div", { class: "zone l" }), el("div", { class: "zone r" }), el("div", { class: "mid" }), yurt, ropeWrap);
+    const figL = el("div", { class: "fig l" }), figR = el("div", { class: "fig r" });
+    figL.innerHTML = Kids.team("#ef4444", "#ffc83d"); figR.innerHTML = Kids.team("#2563eb", "#ffc83d");
+    const ropeWrap = el("div", { class: "rope-wrap" }, el("div", { class: "rope-mid" }), figL, figR, el("div", { class: "knot" }));
+    const scene = el("div", { class: "scene" }, el("div", { class: "ground" }), el("div", { class: "mid" }),
+      el("div", { class: "tag-team l" }, `${TEAM_EMOJI[0]} ${names[0]}`), el("div", { class: "tag-team r" }, `${TEAM_EMOJI[1]} ${names[1]}`), ropeWrap);
     const prog = el("div", { class: "progress" });
     const teams = [0, 1].map(i => makeTeam(i));
     function makeTeam(i) {
@@ -126,9 +125,9 @@ const Games = (() => {
       }
     }
     function update(who) {
-      const unit = (scene.clientWidth * 0.2) / N;
+      const unit = (scene.clientWidth * 0.08) / N;
       ropeWrap.style.transform = `translateX(${pos * unit}px)`;
-      const p = who === 0 ? pullerL : pullerR; p.classList.remove("pull"); void p.offsetWidth; p.classList.add("pull");
+      const p = who === 0 ? figL : figR; p.classList.remove("pull"); void p.offsetWidth; p.classList.add("pull");
       drawProg();
     }
     function drawProg() {

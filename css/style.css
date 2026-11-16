@@ -1,14 +1,13 @@
 :root{
-  --sky:#00afca; --sky-d:#007f95; --gold:#fec50c; --gold-d:#d99f00;
-  --ink:#16324a; --bg:#f4fbfd; --card:#fff; --red:#e8505b; --green:#2fb36d; --blue:#3b82f6;
-  --teamA:#e8505b; --teamB:#3b82f6; --r:22px;
-  --shadow:0 6px 0 rgba(0,0,0,.12);
+  --sky:#0ea5c9; --sky-d:#0b6e8a; --gold:#ffc83d; --gold-d:#e0a400;
+  --ink:#0f2740; --bg:#f4f7fb; --card:#fff; --red:#ef4444; --green:#22a06b; --blue:#2563eb;
+  --teamA:#ef4444; --teamB:#2563eb; --r:24px;
+  --shadow:0 10px 28px rgba(15,39,64,.09),0 2px 4px rgba(15,39,64,.05);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{font-family:"Nunito","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);
-  background-image:radial-gradient(circle at 20px 20px,rgba(0,175,202,.08) 3px,transparent 4px);background-size:40px 40px;
-  min-height:100vh;touch-action:manipulation;user-select:none}
+body{font-family:"Inter","Nunito","Segoe UI",system-ui,sans-serif;color:var(--ink);min-height:100vh;touch-action:manipulation;user-select:none;
+  background:radial-gradient(1200px 500px at 90% -10%,rgba(14,165,201,.12),transparent 60%),radial-gradient(900px 500px at -10% 110%,rgba(255,200,61,.14),transparent 60%),var(--bg)}
 button{font:inherit;cursor:pointer;color:inherit}
 h1{font-size:clamp(28px,4vw,44px);margin:.2em 0}
 h2{margin:.2em 0 .6em}
@@ -17,7 +16,7 @@ h2{margin:.2em 0 .6em}
 code{background:#eef;padding:1px 6px;border-radius:6px}
 
 /* sidebar */
-.side{position:fixed;left:0;top:0;bottom:0;width:250px;background:var(--sky);color:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:14px;border-right:6px solid var(--gold);z-index:20}
+.side{position:fixed;left:0;top:0;bottom:0;width:270px;background:linear-gradient(180deg,#0f2f4f 0%,#0b5772 100%);color:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:14px;z-index:20;box-shadow:6px 0 30px rgba(15,39,64,.15)}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 6px}
 .brand .logo{width:56px;height:56px;flex:none;background:#fff;border-radius:16px;display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.15)}
 .brand .logo img{width:40px}
@@ -26,19 +25,20 @@ code{background:#eef;padding:1px 6px;border-radius:6px}
 .brand small{opacity:.85}
 .nav{display:flex;flex-direction:column;gap:8px}
 .nav-sep{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin:10px 8px 0}
-.tab{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border:0;color:#fff;padding:14px 16px;border-radius:16px;font-weight:800;font-size:1.05rem;text-align:left;transition:.15s}
+.tab{display:flex;align-items:center;gap:10px;background:transparent;border:0;color:#d5e8f0;padding:14px 16px;border-radius:16px;font-weight:800;font-size:1.05rem;text-align:left;transition:.15s}
 .tab i{font-style:normal;font-size:1.4rem}
 .tab em{font-style:normal;font-size:.68rem;background:var(--gold);color:#3a2b00;padding:2px 7px;border-radius:99px;margin-left:auto}
-.tab.active{background:#fff;color:var(--sky-d);box-shadow:var(--shadow);transform:translateX(6px)}
+.tab:hover{background:rgba(255,255,255,.1)}
+.tab.active{background:#fff;color:var(--ink);box-shadow:var(--shadow);transform:translateX(6px)}
 .tab:active{transform:scale(.96)}
 .fs{margin-top:auto;background:rgba(255,255,255,.18);border:0;color:#fff;padding:12px;border-radius:14px;font-weight:800}
 
-main{margin-left:250px;padding:24px;max-width:1300px}
+main{margin-left:270px;padding:24px;max-width:1300px}
 .panel{display:none}.panel.active{display:block;animation:fade .25s}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}}
 
 /* home */
-.hero{display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,var(--sky),#4fd1e6);color:#fff;border-radius:30px;padding:34px;box-shadow:var(--shadow);border-bottom:10px solid var(--gold);overflow:hidden}
+.hero{display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,#0ea5c9 0%,#2563eb 100%);color:#fff;border-radius:32px;padding:38px;box-shadow:0 20px 40px rgba(37,99,235,.25);overflow:hidden}
 .hero-text{flex:1}
 .hero h1{margin-top:0}.hero .lead{opacity:.95;max-width:560px}
 .hero-yurt{width:min(340px,36vw);height:auto;flex:none;filter:drop-shadow(0 8px 0 rgba(0,0,0,.12))}
@@ -53,7 +53,7 @@ main{margin-left:250px;padding:24px;max-width:1300px}
 /* game menu */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:20px}
 .game-card{border:0;border-radius:var(--r);padding:28px;text-align:left;background:var(--card);box-shadow:var(--shadow),0 0 0 4px #fff inset;
-  display:flex;flex-direction:column;gap:8px;transition:transform .12s,box-shadow .12s;min-height:230px;border-bottom:8px solid}
+  display:flex;flex-direction:column;gap:8px;transition:transform .12s,box-shadow .12s;min-height:230px;border-bottom:6px solid}
 .game-card.tug{border-color:var(--red)}.game-card.turn{border-color:var(--green)}.game-card.flag{border-color:var(--blue)}.game-card.pairs{border-color:var(--gold)}
 .game-card .emoji{font-size:72px;line-height:1}
 .game-card b{font-size:1.7rem}
@@ -91,21 +91,22 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--sky)}
 
 /* TUG OF WAR */
 .stage-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.scene{position:relative;height:230px;border-radius:var(--r);overflow:hidden;background:linear-gradient(#8fe0f0 0%,#d6f6fb 62%,#7ac36a 62%,#5aa94d 100%);box-shadow:var(--shadow);border:4px solid #fff}
-.scene .yurt{position:absolute;left:50%;bottom:34%;transform:translateX(-50%);width:160px}
-.scene .yurt img{display:block;width:100%;height:auto}
-.scene .zone{position:absolute;top:0;bottom:0;width:14%;opacity:.28}
-.scene .zone.l{left:0;background:var(--teamA)}.scene .zone.r{right:0;background:var(--teamB)}
-.scene .mid{position:absolute;left:50%;top:0;bottom:0;border-left:4px dashed rgba(0,0,0,.25)}
-.rope-wrap{position:absolute;left:0;right:0;top:46%;height:70px;transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
-.rope{position:absolute;left:8%;right:8%;top:30px;height:10px;border-radius:6px;background:repeating-linear-gradient(90deg,#b8863b 0 12px,#8a5f22 12px 24px);box-shadow:0 3px 0 rgba(0,0,0,.2)}
-.knot{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-size:44px}
-.puller{position:absolute;top:-2px;font-size:54px;transition:.2s}
-.puller.l{left:2%}.puller.r{right:2%;transform:scaleX(-1)}
-.puller.pull{animation:tug .4s}
-@keyframes tug{50%{transform:translateX(0) scale(1.25) rotate(-8deg)}}
-.puller.r.pull{animation:tugR .4s}
-@keyframes tugR{50%{transform:scaleX(-1) scale(1.25) rotate(-8deg)}}
+.scene{position:relative;aspect-ratio:16/5;width:100%;overflow:hidden}
+.scene .mid{position:absolute;left:50%;top:0;bottom:4%;border-left:5px dashed #ef4444;transform:translateX(-2.5px);z-index:3;opacity:.9}
+.scene .ground{position:absolute;left:3%;right:3%;bottom:5%;height:2px;background:linear-gradient(90deg,transparent,rgba(15,39,64,.15),transparent)}
+.rope-wrap{position:absolute;inset:0;transition:transform .5s cubic-bezier(.3,1.4,.5,1);z-index:2}
+.rope-wrap .fig{position:absolute;bottom:6%;width:31.25%;aspect-ratio:300/240}
+.rope-wrap .fig svg{display:block;width:100%;height:100%;overflow:visible}
+.rope-wrap .fig.l{left:10%}
+.rope-wrap .fig.r{right:10%}.rope-wrap .fig.r svg{transform:scaleX(-1)}
+.rope-wrap .fig.pull{animation:jerk .35s}
+@keyframes jerk{40%{transform:translateX(-10px)}}
+.rope-wrap .fig.r.pull{animation:jerkR .35s}
+@keyframes jerkR{40%{transform:translateX(10px)}}
+.rope-mid{position:absolute;left:38%;right:38%;top:45.8%;height:3.1%;border-radius:6px;background:repeating-linear-gradient(90deg,#b8863b 0 7px,#7d5a22 7px 10px)}
+.knot{position:absolute;left:50%;top:41%;width:3.2%;aspect-ratio:1/1.5;transform:translateX(-50%);background:#ef4444;border-radius:4px 4px 50% 50%;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.tag-team{position:absolute;top:6%;z-index:4;font-weight:900;padding:8px 18px;border-radius:99px;color:#fff;font-size:clamp(14px,1.8vw,22px);box-shadow:var(--shadow)}
+.tag-team.l{left:10%;background:var(--teamA)}.tag-team.r{right:10%;background:var(--teamB)}
 .progress{display:flex;gap:4px;margin:10px 0;justify-content:center}
 .progress i{width:calc(100%/22);max-width:34px;height:12px;border-radius:6px;background:#d7e6ec}
 .progress i.a{background:var(--teamA)}.progress i.b{background:var(--teamB)}.progress i.c{background:var(--gold)}
