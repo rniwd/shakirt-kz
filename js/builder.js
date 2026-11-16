@@ -131,6 +131,17 @@ const Builder = (() => {
       else ok = Store.saveSet(set);
       if (ok) { editing = null; f.reset(); fill(null); list(); renderStats(); }
     };
+    const DEMO = "Абай Құнанбайұлы 1845 жылы Шыңғыстау өңірінде дүниеге келген. Абайдың қара сөздері 45 тараудан тұрады. Дәйексөз — басқа адамның сөзін өзгертпей алып айту. Эпитет — заттың белгісін, сапасын нақтылайтын сөз. Қазақ хандығы 1465 жылы құрылған. Қазақстанның астанасы Астана қаласы 1997 жылы ресми түрде жарияланды. Жұмбақ — халық ауыз әдебиетінің ең көне жанрларының бірі. Алматы қаласы Қазақстанның ең үлкен мәдени орталығы болып саналады.";
+    $("#agDemo").onclick = () => { $("#agText").value = DEMO; };
+    $("#agGo").onclick = () => {
+      const items = Autogen.generate($("#agText").value);
+      if (items.length < 4) { $("#agMsg").textContent = "⚠️ Мәтін қысқа немесе сөйлемдер аз. Кемінде 5–6 толық сөйлем қойыңыз."; return; }
+      const old = f.text.value.trim();
+      f.text.value = (old ? old + "\n" : "") + Autogen.toLines(items);
+      if (!f.title.value) f.title.value = "Мәтін бойынша тест";
+      $("#agMsg").textContent = `✔ ${items.length} сұрақ жасалды — төменде тексеріп, «Сақтау» басыңыз`;
+      count(); f.text.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
     $("#acctBtn").onclick = () => Cloud.user ? go("builder") : authModal();
     Cloud.onChange(list);
 

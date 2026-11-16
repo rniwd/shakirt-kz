@@ -163,6 +163,12 @@
           <label>Атауы<input name="title" required maxlength="80" placeholder="Мысалы: 5-сынып, Септік жалғаулары"></label>
           <label>Пән<select name="subject"><option value="english">Ағылшын тілі</option><option value="math">Математика</option><option value="kazakh">Қазақ тілі мен әдебиеті</option><option value="other">Басқа пән</option></select></label>
         </div>
+        <details class="autogen" open>
+          <summary>✨ Мәтіннен автоматты сұрақ жасау</summary>
+          <p class="hint">Дайын мәтінді (тақырып, параграф, ереже) қойыңыз — платформа одан «бос орынды толтыр» және «дегеніміз не?» сұрақтарын өзі жасайды. Нәтижені төмендегі өрісте түзетуге болады.</p>
+          <textarea id="agText" rows="5" placeholder="Мәтінді осында қойыңыз…"></textarea>
+          <div class="row"><button type="button" class="primary" id="agGo">⚡ Сұрақтар жасау</button><button type="button" class="ghost-b" id="agDemo">Үлгі мәтін</button><b id="agMsg" class="hint"></b></div>
+        </details>
         <label>Тапсырмалар — әр жолға бір сұрақ: <code>сұрақ | дұрыс жауап</code>
           <textarea name="text" rows="9" required placeholder="apple | алма&#10;7 × 8 | 56&#10;Абай қай жылы туған? | 1845 | 1865 | 1904"></textarea>
         </label>
@@ -210,6 +216,7 @@
   <script src="js/materials.js"></script>
   <script src="js/tests.js"></script>
   <script src="js/cloud.js"></script>
+  <script src="js/autogen.js"></script>
   <script src="js/builder.js"></script>
   <script src="js/app.js"></script>
 </body>
