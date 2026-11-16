@@ -28,7 +28,7 @@
       <div class="hero">
         <div class="hero-text">
           <h1>Сәлем, шәкірт! 👋</h1>
-          <p class="lead">shakirt.kz — интерактивті тақтада командамен ойнап, үйренетін орын. Математика мен ағылшын тілі: ойындар, түсінікті мәтіндер және тесттер.</p>
+          <p class="lead">shakirt.kz — интерактивті тақтада командамен ойнап, үйренетін орын. Математика, ағылшын және қазақ тілдері: ойындар, түсінікті мәтіндер және тесттер.</p>
           <button class="big" data-go="games">🎮 Ойнап көрейік</button>
         </div>
         <img class="hero-yurt" src="assets/yurt.png" alt="Ақ киіз үй">
@@ -38,8 +38,8 @@
 
       <h2 class="sec">Бөлімдер</h2>
       <div class="cards">
-        <button class="game-card c-mat" data-go="materials"><span class="emoji">📚</span><b>Материалдар</b><small>Бөлшектен логарифм мен тригонометрияға дейін, ағылшын грамматикасы — қысқа әрі түсінікті мәтіндер.</small></button>
-        <button class="game-card c-game" data-go="games"><span class="emoji">🎮</span><b>Ойындар</b><small>Арқан тарту, Кезекпен, Туды тап, Жұпты тап. Бір тақтада командамен ойнаймыз.</small></button>
+        <button class="game-card c-mat" data-go="materials"><span class="emoji">📚</span><b>Материалдар</b><small>Математика, ағылшын тілі, қазақ тілі мен әдебиеті: бөлшектен логарифмге, Абайдан грамматикаға дейін.</small></button>
+        <button class="game-card c-game" data-go="games"><span class="emoji">🎮</span><b>Ойындар</b><small>Арқан тарту, Барабан, Кезекпен, Туды тап, Жұпты тап. Бір тақтада командамен ойнаймыз.</small></button>
         <button class="game-card c-test" data-go="tests"><span class="emoji">📝</span><b>Тесттер</b><small>Әр тақырыпқа тест және қатемен жұмыс: неге дұрыс екені түсіндіріледі.</small></button>
         <button class="game-card c-vid" data-go="videos"><span class="emoji">🎬</span><b>Бейнесабақтар</b><small>Әзірлену үстінде. Жақында қысқа бейнесабақтар қосылады.</small></button>
       </div>
@@ -55,6 +55,7 @@
         <button class="chip active" data-f="all">Барлығы</button>
         <button class="chip" data-f="math">➗ Математика</button>
         <button class="chip" data-f="english">🔤 Ағылшын тілі</button>
+        <button class="chip" data-f="kazakh">📖 Қазақ тілі мен әдебиеті</button>
         <input id="search" class="search" placeholder="🔍 Іздеу: логарифм, Present Simple...">
       </div>
       <div id="matList" class="mat-grid"></div>
@@ -65,7 +66,7 @@
             <h2>➕ Материал қосу</h2>
             <label>Атауы<input name="title" required maxlength="80" placeholder="Мысалы: Көбейту кестесі"></label>
             <label>Пән
-              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option></select>
+              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option><option value="kazakh">Қазақ тілі мен әдебиеті</option></select>
             </label>
             <label>Түрі
               <select name="kind" id="kindSel">
@@ -84,7 +85,7 @@
             <h2>❓ Өз тапсырмаңды қос</h2>
             <p class="hint">Ойындарда «Менің тапсырмаларым» көзін таңдаңыз.</p>
             <label>Пән
-              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option></select>
+              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option><option value="kazakh">Қазақ тілі мен әдебиеті</option></select>
             </label>
             <label>Сұрақ<input name="q" required maxlength="120" placeholder="Мысалы: 7 × 8 = ?"></label>
             <label>✅ Дұрыс жауап<input name="a" required maxlength="40"></label>
@@ -119,6 +120,7 @@
           <button class="game-card tug" data-game="tug"><span class="emoji">🪢</span><b>Арқан тарту</b><small>Екі команда бір мезгілде жауап береді. Дұрыс жауап — арқанды өз жағыңа тартады!</small></button>
           <button class="game-card turn" data-game="turn"><span class="emoji">🎯</span><b>Кезекпен</b><small>2–4 команда кезекпен жауап береді. Ең көп ұпай жинаған жеңеді.</small></button>
           <button class="game-card flag" data-game="flag"><span class="emoji">🚩</span><b>Туды тап</b><small>Ел туын тауып, атын ата. География мен көзқарас жаттығуы.</small></button>
+          <button class="game-card drum" data-game="drum"><span class="emoji">🥁</span><b>Барабан</b><small>Сынып тізімінен кездейсоқ оқушыны таңда да, сұрақ қой. Кез келген пән бойынша, топқа бөлуге де болады.</small></button>
           <button class="game-card pairs" data-game="pairs"><span class="emoji">🃏</span><b>Жұпты тап</b><small>Ағылшынша сөзді қазақша аудармасымен жұптастыр. Командалар кезекпен ашады.</small></button>
         </div>
       </div>
@@ -135,6 +137,7 @@
           <button class="chip active" data-f="all">Барлығы</button>
           <button class="chip" data-f="math">➗ Математика</button>
           <button class="chip" data-f="english">🔤 Ағылшын тілі</button>
+        <button class="chip" data-f="kazakh">📖 Қазақ тілі мен әдебиеті</button>
         </div>
         <div id="testList" class="mat-grid"></div>
       </div>
@@ -147,7 +150,7 @@
       <div class="soon">
         <div class="soon-emoji">🚧</div>
         <h2>Әзірлену үстінде</h2>
-        <p>Қысқа бейнесабақтар жақында қосылады: математика мен ағылшын тілі, әр тақырып 5–7 минут.</p>
+        <p>Қысқа бейнесабақтар жақында қосылады: математика, ағылшын және қазақ тілі, әр тақырып 5–7 минут.</p>
         <button class="primary" data-go="materials">📚 Әзірге материалдарды оқы</button>
       </div>
     </section>
@@ -160,6 +163,8 @@
   <script src="data/questions.js"></script>
   <script src="data/materials.js"></script>
   <script src="data/tests.js"></script>
+  <script src="data/materials-kk.js"></script>
+  <script src="data/tests-kk.js"></script>
   <script src="js/store.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/music.js"></script>

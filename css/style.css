@@ -225,3 +225,25 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--sky)}
 .music{position:fixed;right:18px;bottom:18px;z-index:40;width:58px;height:58px;border-radius:50%;border:0;background:var(--gold);font-size:28px;box-shadow:0 5px 0 var(--gold-d);transition:.08s}
 .music:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-d)}
 .music.off{background:#cfd8dc;box-shadow:0 5px 0 #9aa8b0;filter:grayscale(1)}
+
+/* Барабан */
+.game-card.drum{border-color:#8b5cf6}
+.mat.kazakh{border-top-color:var(--green)}
+.mat.kazakh small.tag{background:#e5f9ee;color:#177a4f}
+.setup-box textarea{min-height:160px;font-weight:700}
+.drum{background:linear-gradient(135deg,#0f2f4f,#0b5772);color:#fff;border-radius:32px;padding:26px 20px;text-align:center;box-shadow:var(--shadow);border-bottom:8px solid var(--gold);margin-bottom:14px}
+.drum-label{letter-spacing:.2em;font-weight:900;opacity:.7;font-size:.9rem}
+.drum-name{font-size:clamp(40px,7vw,86px);font-weight:900;min-height:1.3em;display:grid;place-items:center;color:var(--gold)}
+.drum.spinning{animation:wob .14s infinite}
+@keyframes wob{25%{transform:rotate(-.7deg)}75%{transform:rotate(.7deg)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.chip2{background:#fff;border-radius:99px;padding:6px 14px;font-weight:800;box-shadow:var(--shadow);transition:.1s}
+.chip2.gone{opacity:.3;text-decoration:line-through}
+.chip2.hl{background:var(--gold);transform:scale(1.12)}
+.drum-panel{margin-top:8px}
+.picked{text-align:center;font-size:clamp(28px,4vw,46px);margin:.2em 0}
+.dstats{display:flex;gap:12px}
+.dstat{background:#fff;border-radius:99px;padding:6px 14px;font-weight:800;box-shadow:var(--shadow)}
+.group-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.grp{border-top:8px solid var(--c);background:#f6fafc;border-radius:16px;padding:12px;font-weight:700}
+.grp b{display:block;color:var(--c);margin-bottom:6px}

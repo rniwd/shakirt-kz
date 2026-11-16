@@ -6,8 +6,8 @@ const Tests = (() => {
   function list() {
     const items = all().filter(t => filter === "all" || t.subject === filter);
     $("#testList").replaceChildren(...items.map(t => el("div", { class: "mat " + t.subject, onclick: () => start(t.id) },
-      el("div", { class: "ic" }, t.subject === "math" ? "➗" : "🔤"), el("b", {}, t.title),
-      el("small", { class: "cnt" }, `${t.qs.length} сұрақ · ${t.subject === "math" ? "Математика" : "Ағылшын тілі"}`),
+      el("div", { class: "ic" }, ({ math: "➗", english: "🔤", kazakh: "📖" })[t.subject]), el("b", {}, t.title),
+      el("small", { class: "cnt" }, `${t.qs.length} сұрақ · ${({ math: "Математика", english: "Ағылшын тілі", kazakh: "Қазақ тілі мен әдебиеті" })[t.subject]}`),
       best(t.id) != null ? el("small", { class: "tag" }, `Үздік нәтиже: ${best(t.id)}/${t.qs.length}`) : "")));
   }
   function best(id) { try { const v = localStorage.getItem("bo_best_" + id); return v == null ? null : +v; } catch { return null; } }

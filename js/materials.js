@@ -1,6 +1,8 @@
 // Материалдар қойындысы
 const Materials = (() => {
   const ICON = { link: "🔗", note: "📝", image: "🖼" };
+  const SUBJ = { math: "Математика", english: "Ағылшын тілі", kazakh: "Қазақ тілі мен әдебиеті" };
+  const SICON = { math: "➗", english: "🔤", kazakh: "📖" };
   let filter = "all", teacher = false, query = "";
 
   function openModal(...kids) { $("#modalContent").replaceChildren(...kids); $("#modal").hidden = false; }
@@ -42,7 +44,7 @@ const Materials = (() => {
     $("#matList").replaceChildren(...(list.length ? list.map(m => {
       const card = el("div", { class: "mat " + m.subject, onclick: () => view(m) },
         el("div", { class: "ic" }, ICON[m.kind] || "📄"), el("b", {}, m.title),
-        el("small", {}, (m.subject === "math" ? "Математика" : "Ағылшын тілі") + (m.local ? " · менің" : "")),
+        el("small", {}, SUBJ[m.subject] + (m.local ? " · менің" : "")),
         m.tag ? el("small", { class: "tag" }, m.tag) : "");
       if (teacher && m.local) card.append(el("button", { class: "del", title: "Жою", onclick: (e) => { e.stopPropagation(); if (confirm("Жоясыз ба?")) { Store.delMaterial(m.id); refresh(); } } }, "🗑"));
       return card;
@@ -51,7 +53,7 @@ const Materials = (() => {
   function renderQ() {
     const l = Store.localQuestions();
     $("#qList").replaceChildren(...l.map(q => el("div", { class: "qitem" },
-      el("span", {}, `${q.subject === "math" ? "➗" : "🔤"} ${q.q} → ${q.a}`),
+      el("span", {}, `${SICON[q.subject]} ${q.q} → ${q.a}`),
       el("button", { type: "button", onclick: () => { Store.delQuestion(q.id); refresh(); } }, "✕"))));
   }
   function renderMeter() {

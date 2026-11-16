@@ -33,36 +33,42 @@ function optBtn(q, o) {
 const Games = (() => {
   const menu = () => $("#menu"), setup = () => $("#setup"), stage = () => $("#stage");
   let stopFn = null;
-  const TITLES = { tug: "🪢 Арқан тарту", turn: "🎯 Кезекпен", flag: "🚩 Туды тап", pairs: "🃏 Жұпты тап" };
+  const TITLES = { tug: "🪢 Арқан тарту", turn: "🎯 Кезекпен", flag: "🚩 Туды тап", pairs: "🃏 Жұпты тап", drum: "🥁 Барабан" };
 
   function show(which) { menu().hidden = which !== "menu"; setup().hidden = which !== "setup"; stage().hidden = which !== "stage"; Music.sync(); }
   function toMenu() { if (stopFn) stopFn(); stopFn = null; stage().replaceChildren(); show("menu"); }
 
   // ---------- Баптау экраны ----------
   function openSetup(game) {
-    const cfg = { subject: game === "flag" ? "flags" : "math", level: 1, source: "auto", win: 5, teams: game === "tug" ? 2 : 3, rounds: 5, pairs: 6, names: [...DEFAULT_NAMES] };
+    const cfg = { subject: game === "flag" ? "flags" : "math", level: 1, source: "auto", win: 5, teams: game === "tug" ? 2 : 3, rounds: 5, pairs: 6, names: [...DEFAULT_NAMES], remove: "yes", list: (() => { try { return localStorage.getItem("bo_class") || ""; } catch { return ""; } })() };
     const box = el("div", { class: "setup-box" });
     const render = () => {
       const seg = (key, items) => el("div", { class: "seg" }, items.map(([v, label]) =>
         el("button", { class: cfg[key] === v ? "on" : "", onclick: () => { cfg[key] = v; Sound.tap(); render(); } }, label)));
       const g = (title, node) => el("div", { class: "opt-group" }, el("b", {}, title), node);
       const groups = [el("button", { class: "back", onclick: toMenu }, "← Артқа"), el("h1", {}, TITLES[game])];
-      if (game === "tug" || game === "turn") {
-        groups.push(g("Пән", seg("subject", [["math", "➗ Математика"], ["english", "🔤 Ағылшын тілі"], ["flags", "🚩 Туларды"]])));
+      if (game === "tug" || game === "turn" || game === "drum") {
+        groups.push(g("Пән", seg("subject", [["math", "➗ Математика"], ["english", "🔤 Ағылшын тілі"], ["kazakh", "📖 Қазақ тілі мен әдебиеті"], ...(game === "drum" ? [["mix", "🔀 Аралас"]] : [["flags", "🚩 Туларды"]])])));
         if (cfg.subject === "math") groups.push(g("Деңгей", seg("level", [[1, "1–20 дейін қосу/азайту"], [2, "100 дейін"], [3, "Көбейту кестесі"], [4, "Бөлу + аралас"]])));
-        if (cfg.subject !== "flags") {
+        if (game !== "drum" && cfg.subject !== "flags" && cfg.subject !== "kazakh") {
           groups.push(g("Сұрақ көзі", seg("source", [["auto", "🎲 Автоматты"], ["custom", "✍️ Менің тапсырмаларым"], ["mix", "🔀 Аралас"]])));
           if (cfg.source !== "auto" && !Q.hasCustom(cfg.subject)) groups.push(el("p", { class: "hint" }, "⚠️ Бұл пән бойынша өз тапсырмаларың жоқ — автоматты сұрақтар қолданылады."));
         }
       }
       if (game === "tug") groups.push(g("Жеңіс үшін неше қадам тарту керек?", seg("win", [[3, "3"], [5, "5"], [7, "7"], [10, "10"]])));
-      else groups.push(g("Команда саны", seg("teams", [[2, "2"], [3, "3"], [4, "4"]])));
+      else if (game === "drum") {
+        const ta = el("textarea", { rows: "8", placeholder: "Әр жолға бір оқушының аты:\nАйдос\nӘлия\nНұрлан", oninput: (e) => { cfg.list = e.target.value; try { localStorage.setItem("bo_class", cfg.list); } catch {} } });
+        ta.value = cfg.list;
+        groups.push(g("Сынып тізімі (әр жолға бір есім)", ta),
+          el("button", { class: "ghost-b", onclick: () => { cfg.list = ["Айдос", "Әлия", "Нұрлан", "Дана", "Ерлан", "Аружан", "Санжар", "Томирис", "Бекзат", "Айгерім"].join("\n"); try { localStorage.setItem("bo_class", cfg.list); } catch {} render(); } }, "✨ Үлгі тізім"),
+          g("Жауап бергеннен кейін оқушыны барабаннан алу", seg("remove", [["yes", "Иә"], ["no", "Жоқ"]])));
+      } else groups.push(g("Команда саны", seg("teams", [[2, "2"], [3, "3"], [4, "4"]])));
       if (game === "turn" || game === "flag") groups.push(g("Әр команда неше сұраққа жауап береді", seg("rounds", [[3, "3"], [5, "5"], [8, "8"]])));
       if (game === "pairs") groups.push(g("Жұп саны", seg("pairs", [[4, "4 (жеңіл)"], [6, "6"], [8, "8"], [10, "10"]])));
       const n = game === "tug" ? 2 : cfg.teams;
-      groups.push(g("Команда аттары", el("div", { class: "teamnames" }, Array.from({ length: n }, (_, i) =>
+      if (game !== "drum") groups.push(g("Команда аттары", el("div", { class: "teamnames" }, Array.from({ length: n }, (_, i) =>
         el("input", { value: cfg.names[i], style: `border-color:${TEAM_COLORS[i]}`, oninput: (e) => cfg.names[i] = e.target.value })))));
-      const go = { tug: startTug, turn: startTurn, flag: startTurn, pairs: startPairs }[game];
+      const go = { tug: startTug, turn: startTurn, flag: startTurn, pairs: startPairs, drum: startDrum }[game];
       groups.push(el("button", { class: "big", onclick: () => { Sound.tap(); go({ ...cfg }); } }, "▶ Бастау"));
       box.replaceChildren(...groups);
     };
@@ -235,6 +241,93 @@ const Games = (() => {
       el("div", { class: "turn-wrap" }, el("div", { class: "scores" }, scoreEls)),
       el("div", { class: "pairs-grid" }, nodes));
     mark(); show("stage");
+    stopFn = () => { dead = true; };
+  }
+
+  // ---------- Барабан: оқушыны кездейсоқ таңдау + сұрақ ----------
+  function startDrum(cfg) {
+    const names = [...new Set((cfg.list || "").split(/\n|,/).map(x => x.trim()).filter(Boolean))];
+    if (names.length < 2) return alert("Кемінде 2 оқушының атын жазыңыз");
+    const srcs = (cfg.subject === "mix" ? ["math", "english", "kazakh"] : [cfg.subject]).map(sub => Q.source(sub, "auto", cfg.level));
+    let pool = [...names], right = 0, wrong = 0, used = 0, current = null, busy = false, dead = false;
+    const cnt = (icon, v) => { const n = el("b", {}, v); return [el("span", { class: "dstat" }, icon, " ", n), n]; };
+    const [sRem, nRem] = cnt("👥", pool.length), [sRight, nRight] = cnt("✅", 0), [sWrong, nWrong] = cnt("❌", 0), [sUsed, nUsed] = cnt("❓", 0);
+    const nameEl = el("div", { class: "drum-name" }, "?");
+    const drumEl = el("div", { class: "drum" }, el("div", { class: "drum-label" }, "🥁 БАРАБАН"), nameEl);
+    const chips = el("div", { class: "chips" });
+    const panel = el("div", { class: "drum-panel" });
+    const paint = (hl) => {
+      nRem.textContent = pool.length; nRight.textContent = right; nWrong.textContent = wrong; nUsed.textContent = used;
+      chips.replaceChildren(...names.map(n => el("span", { class: "chip2" + (pool.includes(n) ? "" : " gone") + (n === hl ? " hl" : "") }, n)));
+    };
+    const idle = () => {
+      current = null; paint();
+      panel.replaceChildren(el("div", { class: "row", style: "justify-content:center" },
+        el("button", { class: "big", onclick: spin }, "🎲 Айналдыру"),
+        el("button", { class: "ghost-b", onclick: () => { Q.shuffle(names).forEach((n, i) => names[i] = n); Sound.tap(); paint(); } }, "🔀 Араластыру"),
+        el("button", { class: "ghost-b", onclick: groups }, "👥 Топқа бөлу")));
+    };
+    function spin() {
+      if (busy || dead || !pool.length) return;
+      busy = true; const winner = Q.pick(pool), total = 22 + Q.rnd(0, 6); let i = 0;
+      drumEl.classList.add("spinning"); panel.replaceChildren();
+      const tick = () => {
+        if (dead) return;
+        const show = i < total ? Q.pick(pool) : winner;
+        nameEl.textContent = show; paint(show); Sound.tap(); i++;
+        if (i <= total) setTimeout(tick, 55 + i * i * 0.4); else picked(winner);
+      };
+      tick();
+    }
+    function picked(w) {
+      busy = false; current = w; drumEl.classList.remove("spinning"); Sound.good();
+      panel.replaceChildren(el("h2", { class: "picked" }, `🎉 ${w}`),
+        el("div", { class: "row", style: "justify-content:center" },
+          el("button", { class: "big", onclick: ask }, "❓ Сұрақты ашу"),
+          el("button", { class: "ghost-b", onclick: () => { pool = pool.filter(n => n !== w); pool.length ? idle() : finish(); } }, "Алып тастау")));
+    }
+    function ask() {
+      const q = Q.pick(srcs)(); let done = false; used++; paint(current);
+      const card = el("div", { class: "turn-card", style: "--c:var(--sky)" });
+      card.append(el("h3", { style: "margin:0;text-align:center" }, current), qNode(q), el("div", { class: "opts" }, q.opts.map(o => {
+        const b = optBtn(q, o);
+        press(b, () => {
+          if (done) return; done = true;
+          const ok = o === q.a;
+          if (ok) { right++; Sound.good(); b.classList.add("right"); } else { wrong++; Sound.bad(); b.classList.add("wrong"); $$(".opt", card).forEach(x => x.dataset.v === q.a && x.classList.add("right")); }
+          $$(".opt", card).forEach(x => !x.classList.contains("right") && !x.classList.contains("wrong") && x.classList.add("dim"));
+          paint(current);
+          card.append(el("div", { class: "row", style: "justify-content:center;margin-top:14px" }, el("button", { class: "primary", onclick: () => {
+            if (cfg.remove === "yes") pool = pool.filter(n => n !== current);
+            pool.length ? idle() : finish();
+          } }, "Жалғастыру →")));
+        });
+        return b;
+      })));
+      panel.replaceChildren(card);
+    }
+    function groups() {
+      let n = Math.min(3, Math.max(2, Math.floor(pool.length / 2)));
+      const body = el("div"), render = () => {
+        const mix = Q.shuffle(pool), gs = Array.from({ length: n }, () => []);
+        mix.forEach((nm, i) => gs[i % n].push(nm));
+        body.replaceChildren(
+          el("h2", {}, "👥 Топқа бөлу"),
+          el("div", { class: "seg" }, [2, 3, 4, 5].filter(k => k <= pool.length).map(k => el("button", { class: k === n ? "on" : "", onclick: () => { n = k; render(); } }, `${k} топ`))),
+          el("div", { class: "group-grid" }, gs.map((g, i) => el("div", { class: "grp", style: `--c:${TEAM_COLORS[i % 4]}` }, el("b", {}, `${TEAM_EMOJI[i % 4]} ${i + 1}-топ`), g.map(x => el("div", {}, x))))),
+          el("div", { class: "row", style: "margin-top:12px" }, el("button", { class: "ghost-b", onclick: render }, "🔀 Қайта араластыру")));
+      };
+      render(); $("#modalContent").replaceChildren(body); $("#modal").hidden = false;
+    }
+    function finish() {
+      paint(); nameEl.textContent = "🏁";
+      winOverlay("Барлығы жауап берді!", el("p", {}, `✅ ${right}  ·  ❌ ${wrong}`), () => startDrum(cfg));
+    }
+    stage().replaceChildren(
+      el("div", { class: "stage-bar" }, el("button", { class: "back", onclick: toMenu }, "← Мәзір"), el("div", { class: "dstats" }, sRem, sRight, sWrong, sUsed),
+        el("button", { class: "back", onclick: () => startDrum(cfg) }, "↺ Қайта")),
+      el("div", { class: "turn-wrap" }, drumEl, chips, panel));
+    idle(); show("stage");
     stopFn = () => { dead = true; };
   }
 

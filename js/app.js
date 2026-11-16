@@ -7,7 +7,7 @@ function go(tab) {
 }
 function renderStats() {
   const mats = Store.materials(), tests = window.PUBLISHED_TESTS || [];
-  const st = [[mats.length, "материал"], [tests.length, "тест"], [tests.reduce((s, t) => s + t.qs.length, 0), "тест сұрағы"], [4, "ойын"], [2, "пән"]];
+  const st = [[mats.length, "материал"], [tests.length, "тест"], [tests.reduce((s, t) => s + t.qs.length, 0), "тест сұрағы"], [5, "ойын"], [3, "пән"]];
   $("#stats").replaceChildren(...st.map(([n, l]) => el("div", { class: "stat" }, el("b", {}, n), l)));
 }
 $$(".tab").forEach(t => t.onclick = () => { Sound.tap(); go(t.dataset.tab); });

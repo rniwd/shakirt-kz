@@ -66,10 +66,14 @@ const Q = (() => {
       : { q: "Бұл қай елдің туы?", img: code, a: name, w: others.map(f => f[1]) };
   };
 
+  // ---- Қазақ тілі мен әдебиеті: тесттер қорынан ----
+  const kzBank = () => (window.PUBLISHED_TESTS || []).filter(t => t.subject === "kazakh").flatMap(t =>
+    t.qs.map(([q, opts, ai]) => ({ q, a: opts[ai], w: opts.filter((_, i) => i !== ai) })));
+
   // ---- Көз таңдау ----
   // source: "auto" | "custom" | "mix"; level 1–4 (математика)
   function source(subject, src, level) {
-    const auto = subject === "math" ? mathGen(level || 1) : subject === "flags" ? flagGen : wordGen;
+    const auto = subject === "math" ? mathGen(level || 1) : subject === "flags" ? flagGen : subject === "kazakh" ? (() => pick(kzBank())) : wordGen;
     const custom = subject === "flags" ? [] : Store.questions(subject);
     let last = null;
     return () => {
