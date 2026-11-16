@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>shakirt.kz — интерактивті оқу платформасы</title>
+  <meta name="description" content="shakirt.kz: интерактивті тақтаға арналған ойындар, материалдар және тесттер. Математика мен ағылшын тілі.">
+  <link rel="icon" href="assets/cap-dark.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <aside class="side">
+    <div class="brand"><span class="logo"><img src="assets/cap-dark.png" alt=""></span><div><b>shakirt<span>.kz</span></b><small>Интерактивті оқу</small></div></div>
+    <nav class="nav" role="tablist">
+      <button class="tab active" data-tab="home"><i>🏠</i> Басты бет</button>
+      <div class="nav-sep">Бөлімдер</div>
+      <button class="tab" data-tab="materials"><i>📚</i> Материалдар</button>
+      <button class="tab" data-tab="games"><i>🎮</i> Ойындар</button>
+      <button class="tab" data-tab="tests"><i>📝</i> Тесттер</button>
+      <button class="tab" data-tab="videos"><i>🎬</i> Бейнесабақтар <em>жақында</em></button>
+    </nav>
+    <button id="fsBtn" class="fs" title="Толық экран">⛶ Толық экран</button>
+  </aside>
+
+  <main>
+    <!-- БАСТЫ БЕТ -->
+    <section id="tab-home" class="panel active">
+      <div class="hero">
+        <div class="hero-text">
+          <h1>Сәлем, шәкірт! 👋</h1>
+          <p class="lead">shakirt.kz — интерактивті тақтада командамен ойнап, үйренетін орын. Математика мен ағылшын тілі: ойындар, түсінікті мәтіндер және тесттер.</p>
+          <button class="big" data-go="games">🎮 Ойнап көрейік</button>
+        </div>
+        <img class="hero-yurt" src="assets/yurt.png" alt="Ақ киіз үй">
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <h2 class="sec">Бөлімдер</h2>
+      <div class="cards">
+        <button class="game-card c-mat" data-go="materials"><span class="emoji">📚</span><b>Материалдар</b><small>Бөлшектен логарифм мен тригонометрияға дейін, ағылшын грамматикасы — қысқа әрі түсінікті мәтіндер.</small></button>
+        <button class="game-card c-game" data-go="games"><span class="emoji">🎮</span><b>Ойындар</b><small>Арқан тарту, Кезекпен, Туды тап, Жұпты тап. Бір тақтада командамен ойнаймыз.</small></button>
+        <button class="game-card c-test" data-go="tests"><span class="emoji">📝</span><b>Тесттер</b><small>Әр тақырыпқа тест және қатемен жұмыс: неге дұрыс екені түсіндіріледі.</small></button>
+        <button class="game-card c-vid" data-go="videos"><span class="emoji">🎬</span><b>Бейнесабақтар</b><small>Әзірлену үстінде. Жақында қысқа бейнесабақтар қосылады.</small></button>
+      </div>
+    </section>
+
+    <!-- МАТЕРИАЛДАР -->
+    <section id="tab-materials" class="panel">
+      <div class="row between">
+        <h1>📚 Материалдар</h1>
+        <label class="switch"><input type="checkbox" id="teacherMode"> <span>👩‍🏫 Мұғалім режимі</span></label>
+      </div>
+      <div class="row filters" id="filters">
+        <button class="chip active" data-f="all">Барлығы</button>
+        <button class="chip" data-f="math">➗ Математика</button>
+        <button class="chip" data-f="english">🔤 Ағылшын тілі</button>
+        <input id="search" class="search" placeholder="🔍 Іздеу: логарифм, Present Simple...">
+      </div>
+      <div id="matList" class="mat-grid"></div>
+
+      <div id="teacherPanel" hidden>
+        <div class="split">
+          <form id="matForm" class="box">
+            <h2>➕ Материал қосу</h2>
+            <label>Атауы<input name="title" required maxlength="80" placeholder="Мысалы: Көбейту кестесі"></label>
+            <label>Пән
+              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option></select>
+            </label>
+            <label>Түрі
+              <select name="kind" id="kindSel">
+                <option value="link">🔗 Сілтеме (Google Drive, YouTube...)</option>
+                <option value="note">📝 Мәтін / конспект</option>
+                <option value="image">🖼 Сурет (≤ 300 КБ)</option>
+              </select>
+            </label>
+            <label data-kind="link">Сілтеме<input name="url" type="url" placeholder="https://..."></label>
+            <label data-kind="note" hidden>Мәтін (## тақырып, - тізім, **қалың**)<textarea name="text" rows="6" maxlength="5000"></textarea></label>
+            <label data-kind="image" hidden>Сурет<input name="file" type="file" accept="image/*"></label>
+            <button class="primary">Сақтау</button>
+          </form>
+
+          <form id="qForm" class="box">
+            <h2>❓ Өз тапсырмаңды қос</h2>
+            <p class="hint">Ойындарда «Менің тапсырмаларым» көзін таңдаңыз.</p>
+            <label>Пән
+              <select name="subject"><option value="math">Математика</option><option value="english">Ағылшын тілі</option></select>
+            </label>
+            <label>Сұрақ<input name="q" required maxlength="120" placeholder="Мысалы: 7 × 8 = ?"></label>
+            <label>✅ Дұрыс жауап<input name="a" required maxlength="40"></label>
+            <label>❌ Қате жауап 1<input name="w1" required maxlength="40"></label>
+            <label>❌ Қате жауап 2<input name="w2" maxlength="40"></label>
+            <label>❌ Қате жауап 3<input name="w3" maxlength="40"></label>
+            <button class="primary">Қосу</button>
+            <div id="qList" class="qlist"></div>
+          </form>
+        </div>
+
+        <div class="box">
+          <h2>💾 Сақтау және жариялау</h2>
+          <p class="hint">Қосқандарың осы браузерде сақталады. Барлық құрылғыда көрінуі үшін «Жүктеп алу» батырмасын басып, деректерді GitHub-тағы <code>data/</code> папкасына қосыңыз (README қараңыз).</p>
+          <div class="row">
+            <button class="ghost-b" id="exportBtn">⬇ Жүктеп алу</button>
+            <label class="ghost-b filebtn">⬆ Жүктеу<input type="file" id="importFile" accept="application/json" hidden></label>
+            <button class="ghost-b danger" id="resetBtn">🗑 Менің деректерімді тазалау</button>
+          </div>
+          <div class="meter" title="Браузер жадының толуы"><i id="meterFill"></i></div>
+          <small id="meterTxt"></small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ОЙЫНДАР -->
+    <section id="tab-games" class="panel">
+      <div id="menu">
+        <h1>🎮 Ойын таңда</h1>
+        <p class="lead">Интерактивті тақтада командалармен ойнаймыз. Телефон керек емес!</p>
+        <div class="cards">
+          <button class="game-card tug" data-game="tug"><span class="emoji">🪢</span><b>Арқан тарту</b><small>Екі команда бір мезгілде жауап береді. Дұрыс жауап — арқанды өз жағыңа тартады!</small></button>
+          <button class="game-card turn" data-game="turn"><span class="emoji">🎯</span><b>Кезекпен</b><small>2–4 команда кезекпен жауап береді. Ең көп ұпай жинаған жеңеді.</small></button>
+          <button class="game-card flag" data-game="flag"><span class="emoji">🚩</span><b>Туды тап</b><small>Ел туын тауып, атын ата. География мен көзқарас жаттығуы.</small></button>
+          <button class="game-card pairs" data-game="pairs"><span class="emoji">🃏</span><b>Жұпты тап</b><small>Ағылшынша сөзді қазақша аудармасымен жұптастыр. Командалар кезекпен ашады.</small></button>
+        </div>
+      </div>
+      <div id="setup" hidden></div>
+      <div id="stage" hidden></div>
+    </section>
+
+    <!-- ТЕСТТЕР -->
+    <section id="tab-tests" class="panel">
+      <div id="testsHome">
+        <h1>📝 Тесттер</h1>
+        <p class="lead">Тақырыпты оқы да, тестпен тексер. Әр сұрақтан кейін түсініктеме шығады.</p>
+        <div class="row filters" id="tFilters">
+          <button class="chip active" data-f="all">Барлығы</button>
+          <button class="chip" data-f="math">➗ Математика</button>
+          <button class="chip" data-f="english">🔤 Ағылшын тілі</button>
+        </div>
+        <div id="testList" class="mat-grid"></div>
+      </div>
+      <div id="testRun" hidden></div>
+    </section>
+
+    <!-- БЕЙНЕСАБАҚТАР -->
+    <section id="tab-videos" class="panel">
+      <h1>🎬 Бейнесабақтар</h1>
+      <div class="soon">
+        <div class="soon-emoji">🚧</div>
+        <h2>Әзірлену үстінде</h2>
+        <p>Қысқа бейнесабақтар жақында қосылады: математика мен ағылшын тілі, әр тақырып 5–7 минут.</p>
+        <button class="primary" data-go="materials">📚 Әзірге материалдарды оқы</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" hidden><div class="modal-body"><button class="close" id="modalClose">✕</button><div id="modalContent"></div></div></div>
+  <button id="musicBtn" class="music" title="Музыка">🎵</button>
+  <div id="fx"></div>
+
+  <script src="data/questions.js"></script>
+  <script src="data/materials.js"></script>
+  <script src="data/tests.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/materials.js"></script>
+  <script src="js/tests.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
